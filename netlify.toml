@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  VITE_API_BASE_URL = "https://xue3-u0pk-dusa.n7e.xano.io/api:WV7ozm8p"
+  VITE_XANO_WORKSPACE_ID = "1"
+  VITE_ENV = "production"
+  VITE_ENABLE_AUDIT_LOGS = "true"
+  VITE_ENABLE_MULTI_TENANT = "true"
+
+# SPA routing - redirect all routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

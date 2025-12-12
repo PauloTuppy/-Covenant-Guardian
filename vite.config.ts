@@ -25,15 +25,9 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'build',
-    // Enable minification
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    outDir: 'dist',
+    // Use esbuild for minification (faster, no extra dependencies)
+    minify: 'esbuild',
     // Chunk splitting for better caching
     rollupOptions: {
       output: {

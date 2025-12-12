@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ],
+  "env": {
+    "VITE_API_BASE_URL": "https://xue3-u0pk-dusa.n7e.xano.io/api:WV7ozm8p",
+    "VITE_XANO_WORKSPACE_ID": "1",
+    "VITE_ENV": "production",
+    "VITE_ENABLE_AUDIT_LOGS": "true",
+    "VITE_ENABLE_MULTI_TENANT": "true"
+  }
+}

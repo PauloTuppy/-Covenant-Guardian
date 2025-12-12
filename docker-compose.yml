@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: covenant-frontend
+    environment:
+      # Aponta para Xano Staging
+      REACT_APP_API_BASE_URL: https://${XANO_WORKSPACE_ID}-staging.xano.io/api
+      REACT_APP_ENV: development
+      # Opcional: Xano API Key para workflows específicos
+      REACT_APP_XANO_API_KEY: ${XANO_API_KEY}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - covenant-network
+
+networks:
+  covenant-network:
+    driver: bridge

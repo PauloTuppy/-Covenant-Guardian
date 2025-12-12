@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database for local development
+  postgres:
+    image: postgres:15-alpine
+    container_name: covenant-guardian-db
+    environment:
+      POSTGRES_DB: covenant_guardian
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - covenant-guardian
+
+  # Frontend Development Server
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: covenant-guardian-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=https://xue3-u0pk-dusa.n7e.xano.io
+      - VITE_ENV=development
+      - VITE_ENABLE_PBT=true
+      - VITE_ENABLE_AUDIT_LOGS=true
+      - VITE_ENABLE_MULTI_TENANT=true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - covenant-guardian
+
+volumes:
+  postgres_data:
+
+networks:
+  covenant-guardian:
+    driver: bridge
